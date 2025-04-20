@@ -1,0 +1,71 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+**/target/
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs
+*.log
+logs/
+*.out
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.csettings
+.settings/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment and Properties
+*.env
+*.local
+.env.*
+**/application-*.yml
+**/application-*.yaml
+**/application-*.properties
+**/application.properties
+**/application.yaml
+
+# Test Reports
+test-output/
+surefire-reports/
+jacoco.exec
+
+# Docker and K8s
+*.pid
+docker-compose.override.yml
+*.tar
+*.gz
+
+# Redis, PostgreSQL, or Local DBs
+*.db
+*.rdb
+*.h2.db
+
+# Coverage
+coverage/
+.coverage
+
+# Security
+*.key
+*.pem
+*.crt
+*.jks
+*.p12
+
