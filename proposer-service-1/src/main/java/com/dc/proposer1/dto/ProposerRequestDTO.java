@@ -6,6 +6,8 @@ public class ProposerRequestDTO {
 
     private String letterRangeStr;
 
+    private String lineID;
+
     public String getFileStr() {
         return fileStr;
     }
@@ -20,5 +22,21 @@ public class ProposerRequestDTO {
 
     public void setLetterRangeStr(String letterRangeStr) {
         this.letterRangeStr = letterRangeStr;
+    }
+
+    public String getLineID() {
+        return lineID;
+    }
+
+    public void setLineID(String lineID) {
+        this.lineID = lineID;
+    }
+
+    @Override
+    public String toString() {
+        return "ProposerRequestDTO{" +
+                "fileStr='" + fileStr + '\'' +
+                ", letterRangeStr='" + letterRangeStr + '\'' +
+                '}';
     }
 }

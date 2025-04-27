@@ -32,6 +32,8 @@
         <module>acceptor-service-2</module>
         <module>acceptor-service-3</module>
         <module>learner-service</module>
+        <module>proposer-1-sidecar</module>
+        <module>proposer-2-sidecar</module>
     </modules>
     <scm>
         <connection/>

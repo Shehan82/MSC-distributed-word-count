@@ -9,7 +9,9 @@ public class AcceptorResponseDTO {
 
     private Integer acceptorPort;
 
-    private String proposerLetterRangeStr;
+    private List<String> proposerLetterRanges;
+
+    private String lineID;
 
     private Map<String, List<String>> letterWiseWords;
 
@@ -67,11 +69,19 @@ public class AcceptorResponseDTO {
         isAcceptorAccepted = acceptorAccepted;
     }
 
-    public String getProposerLetterRangeStr() {
-        return proposerLetterRangeStr;
+    public List<String> getProposerLetterRanges() {
+        return proposerLetterRanges;
     }
 
-    public void setProposerLetterRangeStr(String proposerLetterRangeStr) {
-        this.proposerLetterRangeStr = proposerLetterRangeStr;
+    public void setProposerLetterRanges(List<String> proposerLetterRanges) {
+        this.proposerLetterRanges = proposerLetterRanges;
+    }
+
+    public String getLineID() {
+        return lineID;
+    }
+
+    public void setLineID(String lineID) {
+        this.lineID = lineID;
     }
 }

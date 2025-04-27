@@ -33,9 +33,9 @@ public class AcceptorService {
         boolean isAcceptorAcceptWordCount = false;
 
 
-        String[] fileWords = acceptorRequestDTO.getFileStr().split("[ \\n\\r\\t]+");
+        String[] lineWords = acceptorRequestDTO.getFileStr().split("[ \\n\\r\\t]+");
 
-        for (String word : fileWords) {
+        for (String word : lineWords) {
             String upperCaseWord = word.toUpperCase();
             for (String letter : acceptorRequestDTO.getEligibleLetters()) {
                 if (upperCaseWord.startsWith(letter)) {
@@ -60,8 +60,9 @@ public class AcceptorService {
         AcceptorResponseDTO acceptorResponseDTO = new AcceptorResponseDTO();
         acceptorResponseDTO.setAcceptorPort(this.port);
         acceptorResponseDTO.setProposerPort(acceptorRequestDTO.getProposerPort());
+        acceptorResponseDTO.setLineID(acceptorRequestDTO.getLineID());
         acceptorResponseDTO.setLetterWiseWords(letterWiseWords);
-        acceptorResponseDTO.setProposerLetterRangeStr(acceptorRequestDTO.getLetterRangeStr());
+        acceptorResponseDTO.setProposerLetterRanges(acceptorRequestDTO.getLetterRanges());
         acceptorResponseDTO.setAcceptorWordCount(acceptorWordCount);
         acceptorResponseDTO.setProposerWordCount(proposerWordCount);
         acceptorResponseDTO.setAcceptorAccepted(isAcceptorAcceptWordCount);

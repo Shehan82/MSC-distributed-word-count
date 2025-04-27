@@ -1,10 +1,11 @@
 package com.dc.proposer2.dto;
 
 import java.util.List;
+import java.util.Set;
 
 public class AcceptorRequestDTO {
 
-    private String letterRangeStr;
+    private List<String> letterRanges;
 
     private int wordCount;
 
@@ -12,14 +13,16 @@ public class AcceptorRequestDTO {
 
     private String fileStr;
 
-    private List<String> eligibleLetters;
+    private Set<String> eligibleLetters;
 
-    public String getLetterRangeStr() {
-        return letterRangeStr;
+    private String lineID;
+
+    public List<String> getLetterRanges() {
+        return letterRanges;
     }
 
-    public void setLetterRangeStr(String letterRangeStr) {
-        this.letterRangeStr = letterRangeStr;
+    public void setLetterRanges(List<String> letterRanges) {
+        this.letterRanges = letterRanges;
     }
 
     public int getWordCount() {
@@ -46,11 +49,19 @@ public class AcceptorRequestDTO {
         this.fileStr = fileStr;
     }
 
-    public List<String> getEligibleLetters() {
+    public Set<String> getEligibleLetters() {
         return eligibleLetters;
     }
 
-    public void setEligibleLetters(List<String> eligibleLetters) {
+    public void setEligibleLetters(Set<String> eligibleLetters) {
         this.eligibleLetters = eligibleLetters;
+    }
+
+    public String getLineID() {
+        return lineID;
+    }
+
+    public void setLineID(String lineID) {
+        this.lineID = lineID;
     }
 }

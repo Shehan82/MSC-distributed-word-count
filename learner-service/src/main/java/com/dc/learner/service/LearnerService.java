@@ -10,50 +10,66 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class LearnerService {
 
-    private Map<Integer, Map<Integer, AcceptorResponseDTO>> proposerPortWiseAcceptorPortWiseAcceptorResponseDTO = new ConcurrentHashMap<>();
+    private Map<Integer, Map<String, Map<Integer, AcceptorResponseDTO>>> proposerPortWiseLineIDWiseAcceptorPortWiseAcceptorResponseDTO = new ConcurrentHashMap<>();
 
     public void reconcileAcceptorResponses(AcceptorResponseDTO acceptorResponseDTO) {
-        proposerPortWiseAcceptorPortWiseAcceptorResponseDTO.computeIfAbsent(acceptorResponseDTO.getProposerPort(), k -> new ConcurrentHashMap<>());
-        proposerPortWiseAcceptorPortWiseAcceptorResponseDTO.get(acceptorResponseDTO.getProposerPort()).put(acceptorResponseDTO.getAcceptorPort(), acceptorResponseDTO);
+        proposerPortWiseLineIDWiseAcceptorPortWiseAcceptorResponseDTO.computeIfAbsent(acceptorResponseDTO.getProposerPort(), k -> new ConcurrentHashMap<>());
+        proposerPortWiseLineIDWiseAcceptorPortWiseAcceptorResponseDTO.get(acceptorResponseDTO.getProposerPort()).computeIfAbsent(acceptorResponseDTO.getLineID(), k -> new ConcurrentHashMap<>());
+        proposerPortWiseLineIDWiseAcceptorPortWiseAcceptorResponseDTO.get(acceptorResponseDTO.getProposerPort()).get(acceptorResponseDTO.getLineID()).put(acceptorResponseDTO.getAcceptorPort(), acceptorResponseDTO);
     }
 
     public List<LearnerResultDTO> getLetterWiseWords() {
 
+        Map<String, List<String>> letterWiseWords = new HashMap<>();
         List<LearnerResultDTO> result = new ArrayList<>();
 
-        for (Integer proposerPort : proposerPortWiseAcceptorPortWiseAcceptorResponseDTO.keySet()) {
 
-            Map<Integer, AcceptorResponseDTO> acceptorPortWiseAcceptorResponseDTO = proposerPortWiseAcceptorPortWiseAcceptorResponseDTO.get(proposerPort);
-            int totalAcceptorNodesCount = acceptorPortWiseAcceptorResponseDTO.size();
-            double wordCountAcceptedAcceptorNodes = 0d;
-            AcceptorResponseDTO validAcceptorResponseDTO = null;
+        for (Integer proposerPort : proposerPortWiseLineIDWiseAcceptorPortWiseAcceptorResponseDTO.keySet()) {
 
-            for (Integer acceptorPort : acceptorPortWiseAcceptorResponseDTO.keySet()) {
-                AcceptorResponseDTO acceptorResponseDTO = acceptorPortWiseAcceptorResponseDTO.get(acceptorPort);
-                if (acceptorResponseDTO.isAcceptorAccepted()) {
-                    wordCountAcceptedAcceptorNodes += 1;
-                    validAcceptorResponseDTO = acceptorResponseDTO;
+            Map<String, Map<Integer, AcceptorResponseDTO>> lineIDWiseAcceptorPortWiseAcceptorResponseDTO = proposerPortWiseLineIDWiseAcceptorPortWiseAcceptorResponseDTO.get(proposerPort);
+
+            for (String lineID : lineIDWiseAcceptorPortWiseAcceptorResponseDTO.keySet()) {
+                Map<Integer, AcceptorResponseDTO> acceptorPortWiseAcceptorResponseDTO = lineIDWiseAcceptorPortWiseAcceptorResponseDTO.get(lineID);
+                int totalAcceptorNodesCount = acceptorPortWiseAcceptorResponseDTO.size();
+                double wordCountAcceptedAcceptorNodes = 0d;
+                AcceptorResponseDTO validAcceptorResponseDTO = null;
+
+                for (Integer acceptorPort : acceptorPortWiseAcceptorResponseDTO.keySet()) {
+                    AcceptorResponseDTO acceptorResponseDTO = acceptorPortWiseAcceptorResponseDTO.get(acceptorPort);
+                    if (acceptorResponseDTO.isAcceptorAccepted()) {
+                        wordCountAcceptedAcceptorNodes += 1;
+                        validAcceptorResponseDTO = acceptorResponseDTO;
+                    }
                 }
-            }
 
-            if (wordCountAcceptedAcceptorNodes / totalAcceptorNodesCount >= 0.5 && validAcceptorResponseDTO != null) {
-                Map<String, List<String>> letterWiseWords = validAcceptorResponseDTO.getLetterWiseWords();
+                if (wordCountAcceptedAcceptorNodes / totalAcceptorNodesCount >= 0.5 && validAcceptorResponseDTO != null) {
+                    Map<String, List<String>> lineLetterWiseWords = validAcceptorResponseDTO.getLetterWiseWords();
 
-                for (String letter : letterWiseWords.keySet()) {
-                    LearnerResultDTO learnerResultDTO = new LearnerResultDTO();
-                    learnerResultDTO.setLetter(letter);
-                    learnerResultDTO.setWordCount(letterWiseWords.get(letter).size());
-
-                    for (String word : letterWiseWords.get(letter)) {
-                        learnerResultDTO.getWords().add(word);
+                    for (String letter : lineLetterWiseWords.keySet()) {
+                        for (String word : lineLetterWiseWords.get(letter)) {
+                            letterWiseWords.computeIfAbsent(letter, k -> new ArrayList<>());
+                            letterWiseWords.get(letter).add(word);
+                        }
                     }
 
-                    result.add(learnerResultDTO);
+                } else {
+                    // TODO
                 }
-
-            } else {
-                // TODO
             }
+
+
+        }
+
+        for (String letter : letterWiseWords.keySet()) {
+            LearnerResultDTO learnerResultDTO = new LearnerResultDTO();
+            learnerResultDTO.setLetter(letter);
+            learnerResultDTO.setWordCount(letterWiseWords.get(letter).size());
+
+            for (String word : letterWiseWords.get(letter)) {
+                learnerResultDTO.getWords().add(word);
+            }
+
+            result.add(learnerResultDTO);
         }
 
 
